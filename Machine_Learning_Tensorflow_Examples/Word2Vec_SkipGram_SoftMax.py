@@ -1,39 +1,14 @@
-
-# coding: utf-8
-
-# In[2]:
-
-
 import collections
 import math
 import os
 import random
 import zipfile
 
-
-# In[4]:
-
-
 from six.moves import urllib
 from six.moves import xrange
 
-
-# In[5]:
-
-
 import numpy as np
 import tensorflow as tf
-
-
-# In[6]:
-
-
-print(np.__version__)
-print(tf.__version__)
-
-
-# In[13]:
-
 
 DOWNLOADED_FILENAME = 'SampleText.zip'
 def download_file(url_path, expected_bytes):
@@ -47,11 +22,7 @@ def download_file(url_path, expected_bytes):
     else:
         print('Failed to verify size:', st_size)           
 
-
-# In[20]:
-
-
-def read_words():
+		def read_words():
     with zipfile.ZipFile(DOWNLOADED_FILENAME) as f:
         firstfile = f.namelist()[0]
         filestring = tf.compat.as_str(f.read(firstfile))
@@ -59,24 +30,11 @@ def read_words():
         
     return words
 
-
-# In[14]:
-
-
 URL_PATH = 'http://mattmahoney.net/dc/text8.zip'
 FILESIZE = 31344016
-
 download_file(URL_PATH, FILESIZE)
 
-
-# In[21]:
-
-
 vocabulary = read_words()
-
-
-# In[30]:
-
 
 def build_dataset(words, n_words):
     word_counts = [['UNKNOWN', -1]]
@@ -107,29 +65,13 @@ def build_dataset(words, n_words):
     
     return word_counts, word_indexes, dictionary, reverse_dictionary
 
-
-# In[31]:
-
-
 VOCABULARY_SIZE = 5000
 word_counts, word_indexes, dictionary, reverse_dictionary = build_dataset(vocabulary, VOCABULARY_SIZE)
 
-
-# In[38]:
-
-
 del vocabulary
-
-
-# In[44]:
-
 
 #Global index into words maintedn across batches
 global_index = 0
-
-
-# In[66]:
-
 
 def generate_batch(word_indexes, batch_size, num_skips, skip_window):
     global global_index
@@ -174,34 +116,18 @@ def generate_batch(word_indexes, batch_size, num_skips, skip_window):
 
 batch, labels = generate_batch(word_indexes, 10, 2, 2)
 
-
-# In[71]:
-
-
 for i in range(9):
     print(reverse_dictionary[batch[i]], ": ", reverse_dictionary[labels[i][0]])
-
-
-# In[75]:
-
 
 valid_size = 16
 valid_window = 100
 
 valid_examples = np.random.choice(valid_window, valid_size, replace = False)
 
-
-# In[110]:
-
-
 batch_size = 128
 embedding_size = 50
 skip_window = 2
 num_skips = 2
-
-
-# In[111]:
-
 
 tf.reset_default_graph()
 
@@ -210,29 +136,9 @@ train_labels = tf.placeholder(tf.int32, shape = [batch_size, 1])
 
 valid_datasets = tf.constant(valid_examples, dtype=tf.int32)
 
-
-# In[112]:
-
-
 embeddings = tf.Variable(tf.random_uniform([VOCABULARY_SIZE, embedding_size], -1.0, 1.0))
 
 embed = tf.nn.embedding_lookup(embeddings, train_inputs)
-
-
-# In[113]:
-
-
-embeddings
-
-
-# In[114]:
-
-
-embed
-
-
-# In[115]:
-
 
 weights = tf.Variable(tf.truncated_normal([VOCABULARY_SIZE, embedding_size], stddev = 1.0 / math.sqrt(embedding_size)))
 
@@ -240,50 +146,22 @@ biases = tf.Variable(tf.zeros([VOCABULARY_SIZE]))
 
 hidden_out = tf.matmul(embed, tf.transpose(weights)) + biases
 
-
-# In[116]:
-
-
 train_one_hot = tf.one_hot(train_labels, VOCABULARY_SIZE)
 
 loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = hidden_out, labels = train_one_hot))
 
-
-# In[117]:
-
-
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=1.0).minimize(loss)
-
-
-# In[118]:
-
 
 l2_norms = tf.sqrt(tf.reduce_sum(tf.square(embeddings), 1, keepdims=True))
 
 normalized_embeddings = embeddings / l2_norms
 
-
-# In[119]:
-
-
 valid_embeddings = tf.nn.embedding_lookup(normalized_embeddings, valid_datasets)
-
-
-# In[120]:
-
 
 similarity = tf.matmul(valid_embeddings, normalized_embeddings, transpose_b = True)
 
-
-# In[124]:
-
-
 num_steps = 20001
 init = tf.global_variables_initializer()
-
-
-# In[ ]:
-
 
 with tf.Session() as session:
     init.run()
