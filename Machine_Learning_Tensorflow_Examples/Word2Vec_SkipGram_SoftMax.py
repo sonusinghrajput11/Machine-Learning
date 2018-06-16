@@ -110,10 +110,6 @@ def generate_batch(word_indexes, batch_size, num_skips, skip_window):
     
     return batch, labels
 
-
-# In[67]:
-
-
 batch, labels = generate_batch(word_indexes, 10, 2, 2)
 
 for i in range(9):
@@ -199,4 +195,12 @@ with tf.Session() as session:
                     log_str = '%s %s,' % (log_str, close_word)
                 print(log_str)
             print('\n')       
+	final_embeddings = normalized_embeddings.eval()
+	
+def save_word_embeddings(embeddings, word_counts):
+    np.save('embedding.npy', embeddings)
+    
+    words = [x[0] for x in word_counts]
+    np.save('word.npy', words)
 
+save_word_embeddings(final_embeddings, word_counts)
