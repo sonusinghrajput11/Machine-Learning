@@ -59,24 +59,35 @@ public class LogisticRegression {
 
 			}
 			
-			System.out.println("Epoch::" + j + " weight::" + weights + " bias::" + bias);
+			System.out.println("Epoch::" + j + " weight::" + printWeights(weights) + " bias::" + bias);
 		}
 
-		System.out.println("Training completed --> weight::" + weights + " bias::" + bias);
+		System.out.println("Training completed --> weight::" + printWeights(weights) + " bias::" + bias);
 
 		
 		for (int l = 0; l < tests.length; l++) {
 			double temp = 0.0;
+			double input = 0.0;
 			for(int n = 0; n < tests[l].length; n++){
+				input = input + (Math.pow(2, n) * tests[l][(tests[l].length - 1) - n]);
 				temp = temp + (weights[n] * tests[l][n]) + bias;
 			}
 			double yPredicted = 1 / (1 + (Math.pow(Math.E, -temp)));
 
-			int prediction = yPredicted < 0.5 ? 0 : 1;
+			String prediction = yPredicted < 0.5 ? "Odd" : "Even";
 
-			System.out.println(" yyPredicted::" + yPredicted + " Prediction::" + prediction);
+			System.out.println("input:::"+ input +" yyPredicted::" + yPredicted + " Prediction::" + prediction);
 		}
 
+	}
+	
+	public static String printWeights(double[] weights){
+		String weight = "";
+		for(int i = 0; i < weights.length; i++){
+			weight = weight + weights[i] + ",";
+		}
+		
+		return weight;
 	}
 
 }
