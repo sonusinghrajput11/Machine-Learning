@@ -1,15 +1,6 @@
-
-# coding: utf-8
-
-# In[ ]:
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-
-
-# In[ ]:
 
 
 dataset = pd.read_csv('../ML_dataset/salary_exp/Salary_Data.csv')
@@ -25,9 +16,6 @@ Y_Train = Y[:20]
 Y_Test = Y[20:]
 
 
-# In[ ]:
-
-
 no_of_epochs = 1000
 learning_rate = 0.05
 display_step = 10
@@ -41,9 +29,6 @@ X_Train_T = np.transpose(X_Train)
 no_of_sample = X_Train.shape[0]
 
 
-# In[ ]:
-
-
 def calculate_loss(X_Input, Y_Input):
     Y_Pred = np.dot(X_Input, W) + b
     
@@ -52,9 +37,6 @@ def calculate_loss(X_Input, Y_Input):
     temp_loss = (np.square(diff)).sum()
     
     return temp_loss
-
-
-# In[ ]:
 
 
 for epoch in range(no_of_epochs):
@@ -78,14 +60,8 @@ print("***********************************Training Finished!********************
 print("Training loss=", training_loss, "W=", W, "b=", b, '\n')
 
 
-# In[ ]:
-
-
 def predict(X_Input):
     return np.dot(X_Input, W) + b
-
-
-# In[ ]:
 
 
 # Visualising the Training set results
