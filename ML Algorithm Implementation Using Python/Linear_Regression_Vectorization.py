@@ -1,17 +1,7 @@
-
-# coding: utf-8
-
-# In[ ]:
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_boston
 from sklearn.preprocessing import scale
-
-
-# In[ ]:
-
 
 #Reading boston dataset
 X_Actual, Y_Actual = load_boston(True)
@@ -23,10 +13,6 @@ Y_Train = Y_Actual[:400]
 #Taking data 400 onwards for testung the model 
 X_Test = scale(X_Actual[400:])
 Y_Test = Y_Actual[400:]
-
-
-# In[ ]:
-
 
 no_of_epochs = 1000
 learning_rate = 0.01
@@ -42,10 +28,6 @@ no_of_sample = X_Train.shape[0]
 
 #print("X_Train ",  X_Train, "Y_Train ", Y_Train)
 
-
-# In[ ]:
-
-
 def calculate_loss(X_Input, Y_Input):
     Y_Pred = np.dot(X_Input, W) + b
     
@@ -54,10 +36,6 @@ def calculate_loss(X_Input, Y_Input):
     temp_loss = (np.square(diff)).sum()
     
     return temp_loss
-
-
-# In[ ]:
-
 
 for epoch in range(no_of_epochs):
     
@@ -78,10 +56,6 @@ for epoch in range(no_of_epochs):
         
 print("***********************************Training Finished!******************************************")
 print("Training loss=", training_loss, "W=", W, "b=", b, '\n')
-
-
-# In[ ]:
-
 
 #Model Validation and Testing
 test_loss = calculate_loss(X_Test, Y_Test)
