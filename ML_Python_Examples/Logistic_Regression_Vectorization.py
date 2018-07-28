@@ -1,19 +1,11 @@
 
 # coding: utf-8
-
-# In[ ]:
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_breast_cancer
 from sklearn.preprocessing import scale
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-
-# In[ ]:
-
 
 #Reading breast_cancer dataset
 X_Actual, Y_Actual = load_breast_cancer(True)
@@ -25,10 +17,6 @@ Y_Train = Y_Actual[:500].reshape(-1,1)
 #Taking data 500 onwards for testung the model 
 X_Test = scale(X_Actual[500:])
 Y_Test = Y_Actual[500:].reshape(-1,1)
-
-
-# In[ ]:
-
 
 no_of_epochs = 5000
 learning_rate = 0.05
@@ -42,10 +30,6 @@ b = np.zeros((1,1), dtype=np.float);
 X_Train_T = np.transpose(X_Train)
 no_of_sample = X_Train.shape[0]
 
-
-# In[ ]:
-
-
 def calculate_loss(X_Input, Y_Input):
     Y_Pred = np.dot(X_Input, W) + b
     
@@ -55,16 +39,8 @@ def calculate_loss(X_Input, Y_Input):
     
     return temp_loss
 
-
-# In[ ]:
-
-
 def sigmoid_activation(x):
     return 1.0 / (1 + np.exp(-x))
-
-
-# In[ ]:
-
 
 for epoch in range(no_of_epochs):
     
@@ -88,10 +64,6 @@ for epoch in range(no_of_epochs):
 print("***********************************Training Finished!******************************************")
 print("Training loss=", training_loss, "W=", W, "b=", b, '\n')
 
-
-# In[ ]:
-
-
 def check_accuracy(X_T, Y_T):
     prediction = sigmoid_activation(np.dot(X_T, W) + b)
     prediction = (prediction > 0.5).astype(int)
@@ -99,10 +71,6 @@ def check_accuracy(X_T, Y_T):
     prediction = np.count_nonzero(prediction == True)
     prediction = (prediction / Y_T.shape[0]) * 100
     return prediction
-
-
-# In[ ]:
-
 
 #Model Testing
 test_loss = calculate_loss(X_Test, Y_Test)
