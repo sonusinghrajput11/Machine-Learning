@@ -1,1 +1,1 @@
-<li><b>ML Algorithm Implementation Using Tensorflow:</b>Implementation of algorithms using Tensorflow.</li>
+<li><b>ML Algorithm Implementation Using Tensorflow: </b>Implementation of algorithms using Tensorflow.</li>
