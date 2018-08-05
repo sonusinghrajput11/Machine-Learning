@@ -1,19 +1,9 @@
-
-# coding: utf-8
-
-# In[ ]:
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.datasets import load_iris
 import seaborn as sns
 from sklearn.decomposition import PCA
-
-
-# In[ ]:
-
 
 #Reading iris dataset
 iris_dataset = load_iris()
@@ -40,10 +30,6 @@ dataset['label'] = target
 #Suffle the dataset
 dataset_random = dataset.sample(frac=1)
 
-
-# In[ ]:
-
-
 #scatter plot using pandas
 
 ax = dataset_random[dataset_random.labelDesc =='setosa'].plot.scatter(x='sepal length (cm)', y='sepal width (cm)', 
@@ -54,18 +40,10 @@ dataset_random[dataset_random.labelDesc=='virginica'].plot.scatter(x='sepal leng
                                                 color='blue', label='virginica', ax=ax)
 ax.set_title("scatter")
 
-
-# In[ ]:
-
-
 #Paired plot using seaborn
 sns.set()
 sns.pairplot(dataset_random[['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)', 'labelDesc']],
              hue="labelDesc", diag_kind="kde")
-
-
-# In[ ]:
-
 
 #PCA analysis using scikit learn
 pca = PCA(n_components=2)
@@ -82,10 +60,6 @@ dataset_random[dataset_random.labelDesc=='versicolor'].plot.scatter(x='pca1', y=
 dataset_random[dataset_random.labelDesc=='virginica'].plot.scatter(x='pca1', y='pca2', 
                                                 color='blue', label='virginica', ax=ax)
 ax.set_title("scatter")
-
-
-# In[ ]:
-
 
 #Scatter plot using matplot lib
 plt.scatter(dataset_random.pca1, dataset_random.pca2, c = dataset_random.label)
